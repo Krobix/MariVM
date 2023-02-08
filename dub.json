@@ -1,0 +1,9 @@
+{
+	"authors": [
+		"Krobix"
+	],
+	"copyright": " ",
+	"description": "A small language VM written in D.",
+	"license": "open source",
+	"name": "mari"
+}
