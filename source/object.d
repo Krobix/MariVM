@@ -1,6 +1,8 @@
 import std.string;
 import std.conv;
 
+//Implementation of objects, from primitives to complex objects with properties and methods
+
 union MariPrimitiveValue {
     int intValue;
     float flValue;
