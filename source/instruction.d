@@ -29,7 +29,13 @@ enum Opcode {
     //string new
     STRNEW,
     //output to terminal
-    LOG
+    LOG,
+    //save value from register as a variable
+    SAVE,
+    //load value from a variable to a register
+    LOAD,
+    //delete a variable
+    DELETE
 }
 
 enum InstructionParamType {
