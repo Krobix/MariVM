@@ -1,18 +1,17 @@
-
-
+import mariobject;
 //Opcodes and Instructions
 
 enum Opcode {
     //integer add
-    IADD = 0,
+    INTADD = 0,
     //integer subtrtact
-    ISUB,
+    INTSUB,
     //integer multiply
-    IMUL,
+    INTMUL,
     //integer divide
-    IDIV,
+    INTDIV,
     //integer modulus
-    IMOD,
+    INTMOD,
     //float add
     FLADD,
     //float subtract
@@ -24,13 +23,13 @@ enum Opcode {
     //string add (concatenation)
     STRADD,
     //integer new (create new integer)
-    INEW,
+    INTNEW,
     //float new
     FLNEW,
     //string new
     STRNEW,
     //output to terminal
-    PRINT
+    LOG
 }
 
 enum InstructionParamType {
@@ -44,7 +43,12 @@ enum InstructionParamType {
     REGISTER
 }
 
+union InstructionParam {
+    int registerAddress; //0-9 int
+    MariPrimitiveValue literalValue;
+}
+
 struct Instruction {
     Opcode op;
-
+    InstructionParam[] params;
 }
