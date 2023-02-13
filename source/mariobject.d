@@ -5,8 +5,8 @@ import std.conv;
 
 union MariPrimitiveValue {
     int intValue;
-    float flValue;
-    string strValue;
+    float floatValue;
+    string stringValue;
 }
 
 enum MariPrimitiveType {
@@ -59,11 +59,11 @@ class MariObject {
     //Methods that are specifically for non-primitive objects
 
     public string[] getPropList(){
-
+        return null; //will change when objects with properties are implemented
     }
     
     public MariObject getProp(string name){
-
+        return null; //will change when objects with properties are implemented
     }
     
     public void setProp(string name, MariObject value){
