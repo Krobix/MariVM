@@ -4,10 +4,22 @@ import mariobject;
 
 //VM implementation
 
-struct Context {
-    MariObject[10] registers;
-    MariObject[string] varTable;
-    Context parentContext;
+class Context {
+    private MariObject[10] registers;
+    private MariObject[] stack;
+    private int[string] varTable;
+    private Context parentContext;
+
+    this(){
+        this.stack = new MariObject[10];
+        this.parentContext = null;
+    }
+
+    this(Context ctx){
+        //Note: this constructor is used to create a child Context
+        this.stack = new MariObject[10];
+        this.parentContext = ctx;
+    }
 }
 
 class VM {
@@ -16,5 +28,5 @@ class VM {
     private Instruction[] code;
     private Context rootContext;
     private Context currentContext;
-    
+
 }

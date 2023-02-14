@@ -30,10 +30,12 @@ enum Opcode {
     STRNEW,
     //output to terminal
     LOG,
-    //save value from register as a variable
-    SAVE,
+    //save value from register to top of stack
+    STORE,
     //load value from a variable to a register
     LOAD,
+    //save value from register to top of stack and define a new variable with given name taht points to this variable
+    DEFVAR,
     //delete a variable
     DELETE
 }
@@ -46,7 +48,9 @@ enum InstructionParamType {
     //string literal
     STRLIT,
     //Value from register
-    REGISTER
+    REGISTER,
+    //Name of variable
+    VARNAME
 }
 
 union InstructionParam {

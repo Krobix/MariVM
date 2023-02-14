@@ -11,6 +11,7 @@ union MariPrimitiveValue {
 
 enum MariPrimitiveType {
     NONE = 0,
+    NULLTYPE,
     INT,
     FLOAT,
     STRING
