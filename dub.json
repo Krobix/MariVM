@@ -3,6 +3,9 @@
 		"Krobix"
 	],
 	"copyright": " ",
+	"dependencies": {
+		"pegged": "~>0.4.6"
+	},
 	"description": "A small language VM written in D.",
 	"license": "open source",
 	"name": "mari"
