@@ -50,6 +50,12 @@ class MariObject {
         this.isPrimitive = true;
     }
 
+    this(MariPrimitiveType type, MariPrimitiveValue value){
+        this.primitiveType = type;
+        this.primitiveValue = value;
+        this.isPrimitive = true;
+    }
+
     public bool getIsPrimitive(){
         return this.isPrimitive;
     }
