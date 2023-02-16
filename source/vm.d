@@ -25,7 +25,9 @@ class VM {
             this.throwRuntimeException("TypeError", "INTADD instruction requires two integers");
         }
         else {
-
+            int prod = x.getPrimitiveValue().intValue + y.getPrimitiveValue().intValue;
+            MariObject output = new MariObject(prod);
+            this.currentContext.setReg(0, output);
         }
     }
 
