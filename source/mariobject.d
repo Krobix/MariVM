@@ -59,8 +59,17 @@ class MariObject {
     public bool getIsPrimitive(){
         return this.isPrimitive;
     }
+    
     public void setIsPrimitive(bool v) {
         this.isPrimitive = v;
+    }
+
+    public bool isPrimitiveType(MariPrimitiveType pt){
+        return (pt==this.primitiveType);
+    }
+
+    public MariPrimitiveValue getPrimitiveValue(){
+        return this.primitiveValue;
     }
 
     //Methods that are specifically for non-primitive objects

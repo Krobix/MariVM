@@ -1,26 +1,33 @@
 import std.string;
 import std.algorithm.mutation;
 import std.conv;
+import std.array;
 import instruction;
 import mariobject;
 
 //VM implementation
 
 class Context {
+    private int ip; //instruction pointer
+    private string ctxIdentifier;
     private MariObject[10] registers;
     private MariObject[] stack;
     private int[string] varTable;
     private Context parentContext;
 
-    this(){
+    this(string id){
+        this.ctxIdentifier = id;
         this.stack = new MariObject[1];
         this.parentContext = null;
+        this.ip = 0;
     }
 
-    this(Context ctx){
+    this(string id, Context ctx){
         //this constructor is used to create a child Context
+        this.ctxIdentifier = id;
         this.stack = new MariObject[1];
         this.parentContext = ctx;
+        this.ip = 0;
     }
 
     public void setReg(int index, MariObject value){
@@ -66,20 +73,53 @@ class Context {
     public Context getParent(){
         return this.parentContext;
     }
+
+    public string getIdentifier(){
+        return this.ctxIdentifier;
+    }
+
+    public int getIP(){
+        return this.ip;
+    }
+
+    public int incrementIP(){
+        return ++this.ip;
+    }
+
+    public int setIP(int i){
+        this.ip = i;
+        return this.ip;
+    }
 }
 
 class VM {
 
-    private int ip; //instruction pointer
+    private bool errorStatus;
     private Instruction[] code;
     private Context rootContext;
     private Context currentContext;
 
+    //start of vm operation methods
+
+    private void instIntAdd(InstructionParam[] params){
+        MariObject x = this.instructionParamToObject(params[0]);
+        MariObject y = this.instructionParamToObject(params[1]);
+        if(!(x.isPrimitiveType(MariPrimitiveType.INT) && y.isPrimitiveType(MariPrimitiveType))) {
+            this.throwRuntimeException("TypeError", "INTADD instruction requires two integers");
+        }
+        else {
+            
+        }
+    }
+
+    //-----------------------------
+
     this(Instruction[] code){
         this.code = code;
-        this.rootContext = new Context();
+        this.rootContext = new Context("rootContext");
         this.currentContext = this.rootContext;
         this.ip = 0;
+        this.errorStatus = false;
     }
 
     public MariObject instructionParamToObject(InstructionParam param){
@@ -109,6 +149,20 @@ class VM {
             ctx = ctx.getParent();
         } while (ctx !is null);
         return null; //this should probably be changed later, for better error handling
+    }
+
+    public void throwRuntimeException(string identifier, string information){
+        auto builder = appender!string;
+        builder.put("Runtime Exception: ");
+        builder.put(this.currentContext.getIdentifier());
+        builder.put(":");
+        builder.put(identifier);
+        builder.put(":");
+        builder.put(to!string(this.currentContext.getIP()));
+        builder.put(": ");
+        builder.put(information);
+        writeln(builder[]);
+        this.errorStatus = true;
     }
 
 }

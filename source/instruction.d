@@ -39,7 +39,9 @@ enum Opcode {
     //delete a variable
     DELETE,
     //delete a variable and delete the object taht it points to
-    FREE
+    FREE,
+    //remove object from top of stack if it exists and move to reg0
+    POP
 }
 
 enum InstructionParamType {
