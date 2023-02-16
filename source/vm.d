@@ -1,6 +1,7 @@
 import std.string;
 import std.algorithm.mutation;
 import std.conv;
+import std.stdio;
 import std.array;
 import instruction;
 import mariobject;
@@ -104,11 +105,11 @@ class VM {
     private void instIntAdd(InstructionParam[] params){
         MariObject x = this.instructionParamToObject(params[0]);
         MariObject y = this.instructionParamToObject(params[1]);
-        if(!(x.isPrimitiveType(MariPrimitiveType.INT) && y.isPrimitiveType(MariPrimitiveType))) {
+        if(!(x.isPrimitiveType(MariPrimitiveType.INT) && y.isPrimitiveType(MariPrimitiveType.INT))) {
             this.throwRuntimeException("TypeError", "INTADD instruction requires two integers");
         }
         else {
-            
+
         }
     }
 
@@ -118,7 +119,6 @@ class VM {
         this.code = code;
         this.rootContext = new Context("rootContext");
         this.currentContext = this.rootContext;
-        this.ip = 0;
         this.errorStatus = false;
     }
 
