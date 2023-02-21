@@ -31,6 +31,125 @@ class VM {
         }
     }
 
+    private void instIntSub(InstructionParam[] params){
+        MariObject x = this.instructionParamToObject(params[0]);
+        MariObject y = this.instructionParamToObject(params[1]);
+        if(!(x.isPrimitiveType(MariPrimitiveType.INT) && y.isPrimitiveType(MariPrimitiveType.INT))) {
+            this.throwRuntimeException("TypeError", "INTSUB instruction requires two integers");
+        }
+        else {
+            int prod = x.getPrimitiveValue().intValue - y.getPrimitiveValue().intValue;
+            MariObject output = new MariObject(prod);
+            this.currentContext.setReg(0, output);
+        }
+    }
+
+    private void instIntMul(InstructionParam[] params){
+        MariObject x = this.instructionParamToObject(params[0]);
+        MariObject y = this.instructionParamToObject(params[1]);
+        if(!(x.isPrimitiveType(MariPrimitiveType.INT) && y.isPrimitiveType(MariPrimitiveType.INT))) {
+            this.throwRuntimeException("TypeError", "INTMUL instruction requires two integers");
+        }
+        else {
+            int prod = x.getPrimitiveValue().intValue * y.getPrimitiveValue().intValue;
+            MariObject output = new MariObject(prod);
+            this.currentContext.setReg(0, output);
+        }
+    }
+
+    private void instIntDiv(InstructionParam[] params){
+        MariObject x = this.instructionParamToObject(params[0]);
+        MariObject y = this.instructionParamToObject(params[1]);
+        if(!(x.isPrimitiveType(MariPrimitiveType.INT) && y.isPrimitiveType(MariPrimitiveType.INT))) {
+            this.throwRuntimeException("TypeError", "INTDIV instruction requires two integers");
+        }
+        else {
+            int prod = x.getPrimitiveValue().intValue / y.getPrimitiveValue().intValue;
+            MariObject output = new MariObject(prod);
+            this.currentContext.setReg(0, output);
+        }
+    }
+
+    private void instIntMod(InstructionParam[] params){
+        MariObject x = this.instructionParamToObject(params[0]);
+        MariObject y = this.instructionParamToObject(params[1]);
+        if(!(x.isPrimitiveType(MariPrimitiveType.INT) && y.isPrimitiveType(MariPrimitiveType.INT))) {
+            this.throwRuntimeException("TypeError", "INTMOD instruction requires two integers");
+        }
+        else {
+            int prod = x.getPrimitiveValue().intValue % y.getPrimitiveValue().intValue;
+            MariObject output = new MariObject(prod);
+            this.currentContext.setReg(0, output);
+        }
+    }
+
+    private void instFlAdd(InstructionParam[] params){
+        MariObject x = this.instructionParamToObject(params[0]);
+        MariObject y = this.instructionParamToObject(params[1]);
+        if(!(x.isPrimitiveType(MariPrimitiveType.FLOAT) && y.isPrimitiveType(MariPrimitiveType.FLOAT))) {
+            this.throwRuntimeException("TypeError", "FLADD instruction requires two floats");
+        }
+        else {
+            float prod = x.getPrimitiveValue().floatValue + y.getPrimitiveValue().floatValue;
+            MariObject output = new MariObject(prod);
+            this.currentContext.setReg(0, output);
+        }
+    }
+
+    private void instFlSub(InstructionParam[] params){
+        MariObject x = this.instructionParamToObject(params[0]);
+        MariObject y = this.instructionParamToObject(params[1]);
+        if(!(x.isPrimitiveType(MariPrimitiveType.FLOAT) && y.isPrimitiveType(MariPrimitiveType.FLOAT))) {
+            this.throwRuntimeException("TypeError", "FLSUB instruction requires two floats");
+        }
+        else {
+            float prod = x.getPrimitiveValue().floatValue - y.getPrimitiveValue().floatValue;
+            MariObject output = new MariObject(prod);
+            this.currentContext.setReg(0, output);
+        }
+    }
+
+    private void instFlMul(InstructionParam[] params){
+        MariObject x = this.instructionParamToObject(params[0]);
+        MariObject y = this.instructionParamToObject(params[1]);
+        if(!(x.isPrimitiveType(MariPrimitiveType.FLOAT) && y.isPrimitiveType(MariPrimitiveType.FLOAT))) {
+            this.throwRuntimeException("TypeError", "FLMUL instruction requires two floats");
+        }
+        else {
+            float prod = x.getPrimitiveValue().floatValue * y.getPrimitiveValue().floatValue;
+            MariObject output = new MariObject(prod);
+            this.currentContext.setReg(0, output);
+        }
+    }
+
+    private void instFlDiv(InstructionParam[] params){
+        MariObject x = this.instructionParamToObject(params[0]);
+        MariObject y = this.instructionParamToObject(params[1]);
+        if(!(x.isPrimitiveType(MariPrimitiveType.FLOAT) && y.isPrimitiveType(MariPrimitiveType.FLOAT))) {
+            this.throwRuntimeException("TypeError", "FLDIV instruction requires two floats");
+        }
+        else {
+            float prod = x.getPrimitiveValue().floatValue / y.getPrimitiveValue().floatValue;
+            MariObject output = new MariObject(prod);
+            this.currentContext.setReg(0, output);
+        }
+    }
+
+    private void instStrAdd(InstructionParam[] params){
+        MariObject x = this.instructionParamToObject(params[0]);
+        MariObject y = this.instructionParamToObject(params[1]);
+        if(!(x.isPrimitiveType(MariPrimitiveType.STRING) && y.isPrimitiveType(MariPrimitiveType.STRING))) {
+            this.throwRuntimeException("TypeError", "STRADD instruction requires two strings");
+        }
+        else {
+            auto builder = appender!string;
+            builder.put(x.getPrimitiveValue().stringValue);
+            builder.put(y.getPrimitiveValue().stringValue);
+            MariObject output = new MariObject(builder.toString());
+        }
+    }
+
+
     //-----------------------------
 
     this(Instruction[] code){
@@ -79,7 +198,7 @@ class VM {
         builder.put(to!string(this.currentContext.getIP()));
         builder.put(": ");
         builder.put(information);
-        writeln(builder[]);
+        writeln(builder.toString());
         this.errorStatus = true;
     }
 
