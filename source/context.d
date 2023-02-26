@@ -62,7 +62,7 @@ class Context {
     }
 
     public void deleteFromTopOfStack(){
-        this.deleteFromStack(to!int(this.stack.length-1));
+        if(this.stack.length>0) this.deleteFromStack(to!int(this.stack.length-1));
     }
 
     public Context getParent(){

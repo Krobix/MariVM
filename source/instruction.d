@@ -34,7 +34,7 @@ enum Opcode {
     STORE,
     //load value from a variable to a register
     LOAD,
-    //save value from register to top of stack and define a new variable with given name taht points to this address
+    //save value from register to top of stack and define a new variable with given name that points to this address
     DEFVAR,
     //delete a variable
     DELETE,

@@ -172,6 +172,55 @@ class VM {
         }
     }
 
+    private void instFlNew(InstructionParam[] params){
+        MariObject val = this.instructionParamToObject(params[0]);
+        MariObject output;
+        if(!val.isPrimitiveType(MariPrimitiveType.FLOAT)){
+            this.throwRuntimeException("TypeError", "FLNEW instruction requires a float");
+        }
+        else {
+            output = new MariObject(val.getPrimitiveValue().floatValue);
+            this.currentContext.setReg(0, output);
+        }
+    }
+
+    private void instStrNew(InstructionParam[] params){
+        MariObject val = this.instructionParamToObject(params[0]);
+        MariObject output;
+        if(!val.isPrimitiveType(MariPrimitiveType.STRING)){
+            this.throwRuntimeException("TypeError", "STRNEW instruction requires a string");
+        }
+        else {
+            output = new MariObject(val.getPrimitiveValue().stringValue);
+            this.currentContext.setReg(0, output);
+        }
+    }
+
+    private void instLog(InstructionParam[] params){
+        MariObject val = this.instructionParamToObject(params[0]);
+        string s;
+        if(!val.isPrimitiveType(MariPrimitiveType.STRING)){
+            this.throwRuntimeException("TypeError", "LOG instruction requires a string");
+        }
+        else{
+            s = val.getPrimitiveValue().stringValue;
+            writeln(s);
+        }
+    }
+
+    private void instStore(InstructionParam[] params){
+        MariObject val;
+        if(params[0].type != InstructionParamType.REGISTER){
+            this.throwRuntimeException("RuntimeError", "STORE instruction must be given register name as parameter");
+        }
+        else {
+            val = this.instructionParamToObject(params[0]);
+            this.currentContext.pushToStack(val);
+        }
+    }
+
+    private void instLoad(InstructionParam[] params){}
+
 
     //-----------------------------
 
