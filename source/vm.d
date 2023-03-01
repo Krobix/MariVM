@@ -230,7 +230,17 @@ class VM {
         }
     }
 
-    private void isntDefVar(InstructionParam[] params){}
+    private void isntDefVar(InstructionParam[] params){
+        MariObject val;
+        if(!(params.length==2 && params[0].type==InstructionParamType.VARNAME)){
+            this.throwRuntimeException("RuntimeError", "LOAD instruction requires exactly two arguments, the first of which must be a valid identifier.");
+        }
+        else {
+            val = this.instructionParamToObject(params[1]);
+            this.currentContext.pushToStack(val);
+            this.currentContext.setVar(params[0].value.varName, this.currentContext.stackLen()-1);
+        }
+    }
 
 
     //-----------------------------

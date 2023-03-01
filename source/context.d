@@ -89,4 +89,8 @@ class Context {
     public int[string] getVarTable(){
         return this.varTable;
     }
+
+    public int stackLen(){
+        return to!int(this.stack.length);
+    }
 }
