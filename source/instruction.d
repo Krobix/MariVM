@@ -32,7 +32,7 @@ enum Opcode {
     LOG,
     //save value from register to top of stack
     STORE,
-    //load value from a variable to a register
+    //load put value into a specified register
     LOAD,
     //save value from register to top of stack and define a new variable with given name that points to this address
     DEFVAR,

@@ -219,7 +219,18 @@ class VM {
         }
     }
 
-    private void instLoad(InstructionParam[] params){}
+    private void instLoad(InstructionParam[] params){
+        MariObject val;
+        if(!(params.length==2 && params[1].type==InstructionParamType.REGISTER)){
+            this.throwRuntimeException("RuntimeError", "LOAD instruction requires exactly two arguments, the second of which must be a register.");
+        }
+        else {
+            val = this.instructionParamToObject(params[0]);
+            this.currentContext.setReg(params[1].value.registerAddress, val);
+        }
+    }
+
+    private void isntDefVar(InstructionParam[] params){}
 
 
     //-----------------------------
