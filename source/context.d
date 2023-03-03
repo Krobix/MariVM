@@ -59,6 +59,11 @@ class Context {
 
     public void deleteFromStack(int index){
         this.stack = remove(this.stack, index);
+        foreach(string name; this.varTable.byKey()){ //Changing variable addresses so taht they're correct after removal
+            if(this.varTable[name]>index){
+                this.varTable[name]--;
+            }
+        }
     }
 
     public void deleteFromTopOfStack(){
@@ -88,6 +93,10 @@ class Context {
 
     public int[string] getVarTable(){
         return this.varTable;
+    }
+
+    public void deleteVar(string name){
+        this.varTable.remove(name);
     }
 
     public int stackLen(){

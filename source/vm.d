@@ -242,6 +242,35 @@ class VM {
         }
     }
 
+    private void instDelete(InstructionParam[] params){
+        string varName;
+        if(!(params[0].type==InstructionParamType.VARNAME)){
+            this.throwRuntimeException("RuntimeError", "DELETE instruction must be given variable name as parameter");
+        }
+        else {
+            varName = params[0].value.varName;
+            this.currentContext.deleteVar(varName);
+        }
+    }
+
+    private void instFree(InstructionParam[] params){
+        int ind;
+        string varName;
+        if(!(params[0].type==InstructionParamType.VARNAME)){
+            this.throwRuntimeException("RuntimeError", "FREE instruction must be given variable name as parameter");
+        }
+        else {
+            varName = params[0].value.varName;
+            ind = this.currentContext.getVarAddress(varName);
+            this.currentContext.deleteVar(varName);
+            this.currentContext.deleteFromStack(ind);
+        }
+    }
+
+    private void instPop(InstructionParam[] params){
+        
+    }
+
 
     //-----------------------------
 
