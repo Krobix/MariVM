@@ -268,7 +268,14 @@ class VM {
     }
 
     private void instPop(InstructionParam[] params){
-        
+        MariObject val = this.currentContext.getFromTopOfStack();
+        if(val is null){
+            this.throwRuntimeException("RuntimeError", "Cannot complete POP instruction when stack length is zero");
+        }
+        else {
+            this.currentContext.deleteFromTopOfStack();
+            this.currentContext.setReg(0, val);
+        }
     }
 
 

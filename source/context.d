@@ -54,7 +54,8 @@ class Context {
     }
 
     public MariObject getFromTopOfStack(){
-        return this.stack[$-1];
+        if(this.stack.length>0) return this.stack[$-1];
+        else return null;
     }
 
     public void deleteFromStack(int index){
