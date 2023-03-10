@@ -7,9 +7,15 @@ mixin(grammar("
 
 MariGrammar:
 
-    strlit <- (quote / doublequote) (. / '')+ (quote / doublequote)
+    code < instruction+
 
-    instruction < op (expr ',')* expr? ';'
+    instruction < op (expr :',')* expr? :';'
+    
+    strlit <- doublequotestr / singlequotestr
+
+    doublequotestr <- :(doublequote) (!(doublequote) (. / ''))+ :(doublequote)
+
+    singlequotestr <- :(quote) (!(quote) (. / ''))+ :(quote)
 
     expr <- strlit / regname / varname / decimal / number / codeblock
 
@@ -32,9 +38,7 @@ Instruction[] compileFromString(string code){
     Instruction[] instructions;
     auto tree = MariGrammar(code);
     
-    version(GrammarTest){
-        writeln(tree);
-    }
+    writeln(tree); //for testing purposes -- comment this out
 
     return instructions;
 }
