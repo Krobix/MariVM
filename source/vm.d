@@ -230,7 +230,7 @@ class VM {
         }
     }
 
-    private void isntDefVar(InstructionParam[] params){
+    private void instDefVar(InstructionParam[] params){
         MariObject val;
         if(!(params.length==2 && params[0].type==InstructionParamType.VARNAME)){
             this.throwRuntimeException("RuntimeError", "LOAD instruction requires exactly two arguments, the first of which must be a valid identifier.");
@@ -286,6 +286,70 @@ class VM {
         this.rootContext = new Context("rootContext");
         this.currentContext = this.rootContext;
         this.errorStatus = false;
+    }
+
+    public void execInstruction(Instruction instruction){
+        switch(instruction.op){
+            case Opcode.INTADD:
+                this.instIntAdd(instruction.params);
+                break;
+            case Opcode.INTSUB:
+                this.instIntSub(instruction.params);
+                break;
+            case Opcode.INTMUL:
+                this.instIntMul(instruction.params);
+                break;
+            case Opcode.INTDIV:
+                this.instIntDiv(instruction.params);
+                break;
+            case Opcode.FLADD:
+                this.instFlAdd(instruction.params);
+                break;
+            case Opcode.FLSUB:
+                this.instFlSub(instruction.params);
+                break;
+            case Opcode.FLMUL:
+                this.instFlMul(instruction.params);
+                break;
+            case Opcode.FLDIV:
+                this.instFlDiv(instruction.params);
+                break;
+            case Opcode.STRADD:
+                this.instStrAdd(instruction.params);
+                break;
+            case Opcode.INTNEW:
+                this.instIntNew(instruction.params);
+                break;
+            case Opcode.FLNEW:
+                this.instFlNew(instruction.params);
+                break;
+            case Opcode.STRNEW:
+                this.instStrNew(instruction.params);
+                break;
+            case Opcode.LOG:
+                this.instLog(instruction.params);
+                break;
+            case Opcode.STORE:
+                this.instStore(instruction.params);
+                break;
+            case Opcode.LOAD:
+                this.instLoad(instruction.params);
+                break;
+            case Opcode.DEFVAR:
+                this.instDefVar(instruction.params);
+                break;
+            case Opcode.DELETE:
+                this.instDelete(instruction.params);
+                break;
+            case Opcode.FREE:
+                this.instFree(instruction.params);
+                break;
+            case Opcode.POP:
+                this.instPop(instruction.params);
+                break;
+            
+            default: break;
+        }
     }
 
     public MariObject instructionParamToObject(InstructionParam param){
