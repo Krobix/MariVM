@@ -286,9 +286,18 @@ class VM {
         this.rootContext = new Context("rootContext");
         this.currentContext = this.rootContext;
         this.errorStatus = false;
+
+        debug {
+            writeln("[DEBUG] Created VM object");
+        }
     }
 
     public void execInstruction(Instruction instruction){
+        
+        debug {
+            writeln("[DEBUG] Executing instruction: OP=" ~ to!string(instruction.op));
+        }
+        
         switch(instruction.op){
             case Opcode.INTADD:
                 this.instIntAdd(instruction.params);
@@ -352,8 +361,20 @@ class VM {
         }
     }
 
+    public void cpu(){
+        int ip = this.currentContext.getIP();
+        while(ip<this.code.length){
+            this.execInstruction(this.code[ip]);
+            ip = this.currentContext.incrementIP();
+        }
+    }
+
     public MariObject instructionParamToObject(InstructionParam param){
         Context ctx = this.currentContext;
+
+        debug {
+            writeln("[DEBUG] instructionParamToObject(): TYPE=" ~ to!string(param.type));
+        }
         
         do {
             if(param.type==InstructionParamType.INTLIT){

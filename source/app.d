@@ -17,5 +17,6 @@ void main(string[] args)
 		rawText = readText(filename);
 		code = compileFromString(rawText);
 		vm = new VM(code);
+		vm.cpu();
 	}
 }

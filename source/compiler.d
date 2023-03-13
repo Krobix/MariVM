@@ -44,6 +44,14 @@ MariGrammar:
 
 "));
 
+string joinStrArray(string[] arr){
+    string output = "";
+    foreach(string s; arr){
+        output ~= s;
+    }
+    return output;
+}
+
 InstructionParam exprToInstructionParam(ParseTree tree){
     ParseTree expr = tree.children[0];
     InstructionParam param;
@@ -53,17 +61,17 @@ InstructionParam exprToInstructionParam(ParseTree tree){
     switch(expr.name){
         case "MariGrammar.strlit":
             param.type = InstructionParamType.STRLIT;
-            primitiveValue.stringValue = to!string(expr.matches);
+            primitiveValue.stringValue = to!string(joinStrArray(expr.matches));
             paramValue.literalValue = primitiveValue;
             break;
         case "MariGrammar.decimal":
             param.type = InstructionParamType.FLLIT;
-            primitiveValue.floatValue = to!float(to!string(expr.matches));
+            primitiveValue.floatValue = to!float(to!string(joinStrArray(expr.matches)));
             paramValue.literalValue = primitiveValue;
             break;
         case "MariGrammar.number":
             param.type = InstructionParamType.INTLIT;
-            primitiveValue.intValue = to!int(to!string(expr.matches));
+            primitiveValue.intValue = to!int(to!string(joinStrArray(expr.matches)));
             paramValue.literalValue = primitiveValue;
             break;
         case "MariGrammar.regname":
@@ -92,10 +100,15 @@ Instruction[] compileFromString(string code){
 
     foreach(ParseTree iTree; tree.children[0].children){
         Instruction i;
-        InstructionParam[iTree.children.length-1] iParams;
+        InstructionParam[] iParams;
         i.op = OPMAP[iTree.matches[0]];
+
+        debug {
+            writeln("[DEBUG] Compiling line: " ~ to!string(iTree.matches));
+        }
+
         for(int j=1; j<iTree.children.length; j++){
-            iParams[j] = exprToInstructionParam(iTree.children[j]);
+            iParams ~= exprToInstructionParam(iTree.children[j]);
         }
         i.params = iParams;
         instructions ~= i;
