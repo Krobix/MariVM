@@ -41,7 +41,15 @@ enum Opcode {
     //delete a variable and delete the object taht it points to
     FREE,
     //remove object from top of stack if it exists and move to reg0
-    POP
+    POP,
+    //convert integer to string
+    INTTOSTR,
+    //convert float to string
+    FLTOSTR,
+    //convert string to integer
+    STRTOINT,
+    //convert float to integer
+    STRTOFL
 }
 
 enum InstructionParamType {

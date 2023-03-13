@@ -1,0 +1,8 @@
+intnew 5;
+load $reg0, $reg3;
+flnew 4.5;
+defvar num1, $reg0;
+defvar num2, 9;
+intadd $reg3, num2;
+inttostr $reg0;
+log $reg0;

@@ -10,7 +10,8 @@ pure shared static this(){
     OPMAP = ["intadd":Opcode.INTADD, "intsub":Opcode.INTSUB, "intmul":Opcode.INTMUL, "intdiv":Opcode.INTDIV,
     "intmod":Opcode.INTMOD, "fladd":Opcode.FLADD, "flsub":Opcode.FLSUB, "flmul":Opcode.FLMUL, "fldiv":Opcode.FLDIV, "stradd":Opcode.STRADD,
     "intnew":Opcode.INTNEW, "flnew":Opcode.FLNEW, "strnew":Opcode.STRNEW, "log":Opcode.LOG, "store":Opcode.STORE, "load":Opcode.LOAD, 
-    "defvar":Opcode.DEFVAR, "delete":Opcode.DELETE, "free":Opcode.FREE, "pop":Opcode.POP];
+    "defvar":Opcode.DEFVAR, "delete":Opcode.DELETE, "free":Opcode.FREE, "pop":Opcode.POP, "inttostr":Opcode.INTTOSTR, "fltostr":Opcode.FLTOSTR,
+    "strtoint":Opcode.STRTOINT, "strtofl":Opcode.STRTOFL];
 }
 
 mixin(grammar("
@@ -32,7 +33,8 @@ MariGrammar:
     codeblock < '{' (instruction)+ '}'
     
     op <- 'intadd' / 'intsub' / 'intmul' / 'intdiv' / 'intmod' / 'fladd' / 'flsub' / 'flmul' / 'fldiv' / 
-    'stradd' / 'intnew' / 'flnew' / 'strnew' / 'log' / 'store' / 'load' / 'defvar' / 'delete' / 'free' / 'pop'
+    'stradd' / 'intnew' / 'flnew' / 'strnew' / 'log' / 'store' / 'load' / 'defvar' / 'delete' / 'free' / 'pop' /
+    'inttostr' / 'fltostr' / 'strtoint' / 'strtofl'
     
     regname <- '$reg' [0-9]
     

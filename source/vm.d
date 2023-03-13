@@ -233,7 +233,7 @@ class VM {
     private void instDefVar(InstructionParam[] params){
         MariObject val;
         if(!(params.length==2 && params[0].type==InstructionParamType.VARNAME)){
-            this.throwRuntimeException("RuntimeError", "LOAD instruction requires exactly two arguments, the first of which must be a valid identifier.");
+            this.throwRuntimeException("RuntimeError", "DEFVAR instruction requires exactly two arguments, the first of which must be a valid identifier.");
         }
         else {
             val = this.instructionParamToObject(params[1]);
@@ -275,6 +275,54 @@ class VM {
         else {
             this.currentContext.deleteFromTopOfStack();
             this.currentContext.setReg(0, val);
+        }
+    }
+
+    private void instIntToStr(InstructionParam[] params){
+        MariObject val = this.instructionParamToObject(params[0]);
+        string output;
+        if((val is null) || (!(val.isPrimitiveType(MariPrimitiveType.INT)))){
+            this.throwRuntimeException("TypeError", "Parameter given to INTTOSTR instruction must be integer");
+        }
+        else {
+            output = to!string(val.getPrimitiveValue().intValue);
+            this.currentContext.setReg(0, new MariObject(output));
+        }
+    }
+
+    private void instFlToStr(InstructionParam[] params){
+        MariObject val = this.instructionParamToObject(params[0]);
+        string output;
+        if((val is null) || (!(val.isPrimitiveType(MariPrimitiveType.FLOAT)))){
+            this.throwRuntimeException("TypeError", "Parameter given to FLTOSTR instruction must be float");
+        }
+        else {
+            output = to!string(val.getPrimitiveValue().floatValue);
+            this.currentContext.setReg(0, new MariObject(output));
+        }
+    }
+
+    private void instStrToInt(InstructionParam[] params){
+        MariObject val = this.instructionParamToObject(params[0]);
+        int output;
+        if((val is null) || (!(val.isPrimitiveType(MariPrimitiveType.STRING)))){
+            this.throwRuntimeException("TypeError", "Parameter given to STRTOINT instruction must be string");
+        }
+        else {
+            output = to!int(val.getPrimitiveValue().stringValue);
+            this.currentContext.setReg(0, new MariObject(output));
+        }
+    }
+
+    private void instStrToFl(InstructionParam[] params){
+        MariObject val = this.instructionParamToObject(params[0]);
+        float output;
+        if((val is null) || (!(val.isPrimitiveType(MariPrimitiveType.STRING)))){
+            this.throwRuntimeException("TypeError", "Parameter given to STRTOFL instruction must be string");
+        }
+        else {
+            output = to!float(val.getPrimitiveValue().stringValue);
+            this.currentContext.setReg(0, new MariObject(output));
         }
     }
 
@@ -356,6 +404,18 @@ class VM {
             case Opcode.POP:
                 this.instPop(instruction.params);
                 break;
+            case Opcode.INTTOSTR:
+                this.instIntToStr(instruction.params);
+                break;
+            case Opcode.FLTOSTR:
+                this.instFlToStr(instruction.params);
+                break;
+            case Opcode.STRTOINT:
+                this.instStrToInt(instruction.params);
+                break;
+            case Opcode.STRTOFL:
+                this.instStrToFl(instruction.params);
+                break;
             
             default: break;
         }
@@ -363,7 +423,7 @@ class VM {
 
     public void cpu(){
         int ip = this.currentContext.getIP();
-        while(ip<this.code.length){
+        while(ip<this.code.length && !this.errorStatus){
             this.execInstruction(this.code[ip]);
             ip = this.currentContext.incrementIP();
         }
