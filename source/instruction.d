@@ -62,13 +62,16 @@ enum InstructionParamType {
     //Value from register
     REGISTER,
     //Name of variable
-    VARNAME
+    VARNAME,
+    //code block
+    CODEBLOCK
 }
 
 union InstructionParamValue {
     int registerAddress; //0-9 int
     string varName;
     MariPrimitiveValue literalValue;
+    Instruction[] codeblock;
 }
 
 struct InstructionParam {

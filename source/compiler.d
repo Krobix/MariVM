@@ -30,7 +30,7 @@ MariGrammar:
 
     expr <- strlit / regname / varname / decimal / number / codeblock
 
-    codeblock < '{' (instruction)+ '}'
+    codeblock < :'{' (instruction)+ :'}'
     
     op <- 'intadd' / 'intsub' / 'intmul' / 'intdiv' / 'intmod' / 'fladd' / 'flsub' / 'flmul' / 'fldiv' / 
     'stradd' / 'intnew' / 'flnew' / 'strnew' / 'log' / 'store' / 'load' / 'defvar' / 'delete' / 'free' / 'pop' /
@@ -85,7 +85,20 @@ InstructionParam exprToInstructionParam(ParseTree tree){
             paramValue.varName = to!string(expr.matches);
             break;
         case "MariGrammar.codeblock":
-            //TODO
+            Instruction[] inst;
+            param.type = InstructionParamType.CODEBLOCK;
+            foreach(ParseTree iTree; tree.children){
+                Instruction i;
+                InstructionParam[] iParams;
+                i.op = OPMAP[iTree.matches[0]];
+
+                for(int j=1; j<iTree.children.length; j++){
+                    iParams ~= exprToInstructionParam(iTree.children[j]);
+                }
+                i.params = iParams;
+                inst ~= i;
+            }
+            paramValue.codeblock = inst;
             break;
         default: break;
     }
@@ -98,7 +111,7 @@ Instruction[] compileFromString(string code){
     Instruction[] instructions;
     auto tree = MariGrammar(code);
     
-    //writeln(tree.children[0].children); //for testing purposes -- comment this out
+    //writeln(tree.children[0].children); 
 
     foreach(ParseTree iTree; tree.children[0].children){
         Instruction i;
