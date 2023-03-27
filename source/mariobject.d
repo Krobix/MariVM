@@ -22,6 +22,8 @@ class MariObject {
     private bool isPrimitive;
     private MariPrimitiveType primitiveType;
     private MariPrimitiveValue primitiveValue;
+    private MariType type;
+    private MariObject[string] propTable;
 
     //integer primitive constructor
     this(int value) {

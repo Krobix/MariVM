@@ -1,6 +1,8 @@
 import mariobject;
 import maritype;
 
-class MariFunc:MariObject {
+//functions
+
+abstract class MariFunc:MariObject {
     
 }
