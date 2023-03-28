@@ -1,5 +1,6 @@
 import std.string;
 import std.conv;
+import maritype;
 
 //Implementation of objects, from primitives to complex objects with properties and methods
 
@@ -56,6 +57,11 @@ class MariObject {
         this.primitiveType = type;
         this.primitiveValue = value;
         this.isPrimitive = true;
+    }
+
+    this(MariType type){
+        this.type = type;
+        //TODO
     }
 
     public bool getIsPrimitive(){
