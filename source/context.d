@@ -6,7 +6,6 @@ class Context {
     private int ip; //instruction pointer
     private string ctxIdentifier;
     private MariObject[10] registers;
-    private MariObject[] stack;
     private int[string] varTable;
     private Context parentContext;
 

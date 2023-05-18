@@ -13,6 +13,7 @@ class VM {
 
     private bool errorStatus;
     private Instruction[] code;
+    private MariObject[] stack;
     private Context rootContext;
     private Context currentContext;
 
@@ -429,6 +430,19 @@ class VM {
         }
     }
 
+    public MariObject getVarValue(string varName){
+        Context ctx = this.currentContext;
+        do {
+            foreach(string name; ctx.getVarTable().byKey()) {
+                    if(name==param.value.varName){
+                        return this.stack[ctx.getVarAddress(param.value.varName)];
+                    }
+                }
+        } while(ctx !is null);
+
+        return null; // probably should change this later
+    }
+    
     public MariObject instructionParamToObject(InstructionParam param){
         Context ctx = this.currentContext;
 
@@ -436,29 +450,21 @@ class VM {
             writeln("[DEBUG] instructionParamToObject(): TYPE=" ~ to!string(param.type));
         }
         
-        do {
-            if(param.type==InstructionParamType.INTLIT){
-                return new MariObject(MariPrimitiveType.INT, param.value.literalValue);
-            }
-            else if(param.type==InstructionParamType.STRLIT){
-                return new MariObject(MariPrimitiveType.STRING, param.value.literalValue);
-            }
-            else if(param.type==InstructionParamType.FLLIT){
-                return new MariObject(MariPrimitiveType.FLOAT, param.value.literalValue);
-            }
-            else if(param.type==InstructionParamType.REGISTER){
-                return ctx.getReg(param.value.registerAddress);
-            }
-            else if(param.type==InstructionParamType.VARNAME){
-                foreach(string name; ctx.getVarTable().byKey()) {
-                    if(name==param.value.varName){
-                        return ctx.getVarValue(param.value.varName);
-                    }
-                }
-            }
-
-            ctx = ctx.getParent();
-        } while (ctx !is null);
+        if(param.type==InstructionParamType.INTLIT){
+            return new MariObject(MariPrimitiveType.INT, param.value.literalValue);
+        }
+        else if(param.type==InstructionParamType.STRLIT){
+            return new MariObject(MariPrimitiveType.STRING, param.value.literalValue);
+        }
+        else if(param.type==InstructionParamType.FLLIT){
+            return new MariObject(MariPrimitiveType.FLOAT, param.value.literalValue);
+        }
+        else if(param.type==InstructionParamType.REGISTER){
+            return ctx.getReg(param.value.registerAddress);
+        }
+        else if(param.type==InstructionParamType.VARNAME){
+            return this.getVarValue(param.value.varName);
+        }
         return null; //this should probably be changed later, for better error handling
     }
 
