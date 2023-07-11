@@ -7,7 +7,7 @@ MariType mariObjectType;
 MariType mariClassType;
 MariType mariFuncType;
 
-this(){
+static this(){
     mariClassType = new MariType([], []);
     
     mariObjectType = new MariType([], []);
@@ -18,19 +18,26 @@ this(){
 class MariType:MariObject {
     
     private MariType[] parents;
-    private string[] propList;
+    private string[] classPropList;
+
+    this(){
+        super(mariClassType);
+        this.parents = [];
+        this.classPropList = [];
+    }
 
     this(MariType[] parents, string[] propList){
+        super(mariClassType);
         this.parents = parents;
-        this.propList = propList;
+        this.classPropList = propList;
     }
 
     public MariType[] getParents(){
         return this.parents;
     }
 
-    public string[] getPropList(){
-        return this.propList;
+    public string[] getClassPropList(){
+        return this.classPropList;
     }
 
 }

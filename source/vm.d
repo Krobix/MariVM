@@ -216,7 +216,7 @@ class VM {
         }
         else {
             val = this.instructionParamToObject(params[0]);
-            this.currentContext.pushToStack(val);
+            this.pushToStack(val);
         }
     }
 
@@ -238,8 +238,8 @@ class VM {
         }
         else {
             val = this.instructionParamToObject(params[1]);
-            this.currentContext.pushToStack(val);
-            this.currentContext.setVar(params[0].value.varName, this.currentContext.stackLen()-1);
+            this.pushToStack(val);
+            this.currentContext.setVar(params[0].value.varName, this.stack.length-1);
         }
     }
 
@@ -264,7 +264,7 @@ class VM {
             varName = params[0].value.varName;
             ind = this.currentContext.getVarAddress(varName);
             this.currentContext.deleteVar(varName);
-            this.currentContext.deleteFromStack(ind);
+            this.deleteFromStack(ind);
         }
     }
 
@@ -434,14 +434,37 @@ class VM {
         Context ctx = this.currentContext;
         do {
             foreach(string name; ctx.getVarTable().byKey()) {
-                    if(name==param.value.varName){
-                        return this.stack[ctx.getVarAddress(param.value.varName)];
+                    if(name==varName){
+                        return this.stack[ctx.getVarAddress(varName)];
                     }
                 }
         } while(ctx !is null);
 
         return null; // probably should change this later
     }
+
+    private void deleteFromTopOfStack(){
+        if(this.stack.length>0) this.deleteFromStack(to!int(this.stack.length-1));
+    }
+
+    private void deleteFromStack(int index){
+        this.stack = remove(this.stack, index);
+        foreach(string name; this.varTable.byKey()){ //Changing variable addresses so taht they're correct after removal
+            if(this.varTable[name]>index){
+                this.varTable[name]--;
+            }
+        }
+    }
+
+    private int stackLen(){
+        return to!int(this.stack.length);
+    }
+
+    private void pushToStack(MariObject obj){
+        this.stack ~= obj;
+    }
+
+    private 
     
     public MariObject instructionParamToObject(InstructionParam param){
         Context ctx = this.currentContext;
